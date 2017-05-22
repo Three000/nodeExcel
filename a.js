@@ -27,6 +27,7 @@ let mapInfo = {
 }
 
 
+
 let data = [];
 excel.map((item, index) => {
     item.data.map((e, i) => {
