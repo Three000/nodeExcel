@@ -16,7 +16,7 @@ const excel = xlsx.parse('./performance/lib/20170522.xlsx');
 // console.log(excel[0]);
 
 //设置时间
-let counts = 2 / 0.5;
+const counts = 2 / 0.5;
 //配置信息
 let mapInfo = {
     driver: {
@@ -37,7 +37,6 @@ excel.map((item, index) => {
                 mapInfo.driver.obj[e[2]] = [];
             };
             let arr = mapInfo.driver.obj[e[2]];
-            console.log(arr);
             e.map((m, n) => {
                 if (n > 2) {
                     if (arr[n - 3] || arr[n - 3] == 0) {
@@ -53,11 +52,24 @@ excel.map((item, index) => {
 })
 
 
-class computed {
-    constructor(data) {
+class Computed {
+    constructor(data,counts) {
         this.initData = data;
+        this.counts = counts;
     }
+    renderHeader () {
+        for (var i = 0; i < 12; i = (i+1) * 3) {
+            console.log(i);
+       }
+    }
+    // addArr() {
+    //     for() {
+
+    //     }
+    // }
 }
+var a = new Computed();
+console.log(a.renderHeader());
 
 
 
