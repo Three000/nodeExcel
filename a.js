@@ -20,9 +20,24 @@ const counts = 2 / 0.5;
 //配置信息
 let mapInfo = {
     driver: {
-        title: '积分',
+        title: '积分FromCache',
         key: 'onload_performance_cache_driverScoreStore_appIndex',
         obj: 　{}
+    },
+    driverRequest: {
+        title: '积分FromRequest',
+        key: 'onload_performance_request_driverScoreStore_appIndex',
+        obj: {}
+    },
+    consignorInsuranceCache: {
+        title: '保险FromCache',
+        key: 'onload_performance_cache_consignorInsurance_insuranceIndex',
+        obj: {}
+    },
+    consignorInsuranceRequest: {
+        title: '保险FromRequest',
+        key: 'onload_performance_request_consignorInsurance_insuranceIndex',
+        obj: {}
     }
 }
 
@@ -53,23 +68,45 @@ excel.map((item, index) => {
 
 
 class Computed {
-    constructor(data,counts) {
+    constructor(data, counts) {
         this.initData = data;
         this.counts = counts;
+        this.result = {
+            duration: []
+        };
     }
-    renderHeader () {
-        for (var i = 0; i < 12; i = (i+1) * 3) {
-            console.log(i);
-       }
+    addArr(arr, a) {
+        var d = 0
+        for (var i = (a * this.counts), ii = (a + 1) * this.counts; i < ii; i++) {
+            arr[i] && (d += arr[i])
+        }
+        return d;
     }
-    // addArr() {
-    //     for() {
-
-    //     }
-    // }
+    renderHeader() {
+        var txt = '';
+        var length = this.initData.onloadnative.length;
+        for (var i = 0, ii = (length / this.counts > 1 ? length / this.counts + 1 : length / this.counts); i < ii; i++) {
+            txt = (i * this.counts) + 's~' + ((i + 1) * this.counts) + 's';
+            this.result.duration.push(txt)
+        }
+    }
+    renderBody() {
+        var data = this.initData;
+        for (var key in data) {
+            this.result[key] = []
+            for (var i = 0, ii = (data[key].length / this.counts > 1 ? data[key].length / this.counts + 1 : data[key].length / this.counts); i < ii; i++) {
+                this.result[key].push(this.addArr(data[key], i));
+            }
+        }
+        console.log(this.result);
+    }
+    getResult() {
+        this.renderHeader();
+        this.renderBody();
+    }
 }
-var a = new Computed();
-console.log(a.renderHeader());
+var a = new Computed(mapInfo.driver.obj, counts);
+a.getResult();
 
 
 
